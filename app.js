@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var tools = require('./routes/api/tools');
 
 var app = express();
 
@@ -19,7 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+
+app.get('/', function(req,res){
+  res.sendFile('/public/index.html')
+});
+
+app.use('/api/tools', tools);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
