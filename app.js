@@ -11,7 +11,7 @@ var tools = require('./routes/api/tools');
 var app = express();
 
 //define database
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://localhost:27017/jt');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

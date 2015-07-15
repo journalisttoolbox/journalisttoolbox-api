@@ -6,6 +6,16 @@ var Tool = require('./models/tool.js');
 exports.list = function(req,res){
 	Tool.find(function(err,tools){
 		if(err) res.send(err.message);
+		res.set('Access-Control-Allow-Origin','*');
+		res.json(tools);
+	});
+}
+
+exports.category = function(req,res){
+	console.log(req.params.name);
+	Tool.find({'category': new RegExp('^'+req.params.name+'$', "i")}, function(err, tools){
+		if(err) res.send(err.message);
+		res.set('Access-Control-Allow-Origin','*');
 		res.json(tools);
 	});
 }
