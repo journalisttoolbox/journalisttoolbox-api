@@ -21,7 +21,7 @@ exports.single = function(req,res){
 
 exports.search = function(req, res){
 	var regex = new RegExp(req.params.term, 'i');
-	Tool.find({$or : [{'category': regex}, {'name': regex}]}, function(err,tools){
+	Tool.find({$or : [{'category': regex}, {'name': regex}, {'description': regex}, {'developer': regex}]}, function(err,tools){
 		if(err) res.send(err.message);
 		res.set('Access-Control-Allow-Origin', '*');
 		res.json(tools);
