@@ -3,9 +3,11 @@ var api = require('../../api.js');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', api.list);
-router.get('/:id', api.single);
+
 router.get('/category/:name', api.category);
+router.get('/search/:term', api.search);
+router.get('/:id', api.single);
+router.get('/', api.list);
 router.post('/', api.post);
 
 module.exports = router;
