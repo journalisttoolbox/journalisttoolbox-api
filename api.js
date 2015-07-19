@@ -59,7 +59,9 @@ exports.post = function(req,res){
 					home_url: req.body.home,
 					github_url: req.body.git,
 					download_url: req.body.download,
-					platforms: [req.body.pc,req.body.mac,req.body.linux,req.body.web]
+					platforms: [req.body.pc,req.body.mac,req.body.linux,req.body.web],
+					upvotes: 0,
+					downvotes:0
 				}
 			);
 	newTool.save();

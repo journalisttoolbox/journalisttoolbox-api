@@ -13,7 +13,9 @@ var toolSchema = new Schema({
 	home_url: String,
 	github_url: String,
 	download_url: String,
-	platforms: Array
+	platforms: Array,
+	upvotes: Number,
+	downvotes: Number
 });
 
 module.exports = mongoose.model('Tool', toolSchema);
