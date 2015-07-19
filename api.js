@@ -39,10 +39,27 @@ exports.category = function(req,res){
 
 //creating a new tool
 exports.post = function(req,res){
+
+	var ArrayCategories = req.body.category.split(",");
+	ArrayCategories = ArrayCategories.map(function (val) { return val; });
+
+	var ArrayOrganizations = req.body.companies.split(",");
+	ArrayOrganizations = ArrayOrganizations.map(function (val) { return val; });
+
 	var newTool = new Tool(
 				{
-					name: req.body.title, 
-					description: req.body.description
+					name: req.body.name,
+					developer: req.body.developer,	
+					description: req.body.description,
+					free: req.body.free,
+					price: req.body.price,
+					version: req.body.version,
+					organization: ArrayOrganizations,
+					category: ArrayCategories,
+					home_url: req.body.home,
+					github_url: req.body.git,
+					download_url: req.body.download,
+					platforms: [req.body.pc,req.body.mac,req.body.linux,req.body.web]
 				}
 			);
 	newTool.save();

@@ -3,7 +3,17 @@ var mongoose = require('mongoose'),
 
 var toolSchema = new Schema({
 	name: String,
-	description: String
+	developer: String,	
+	description: String,
+	free: String,
+	price: String,
+	version: String,
+	organization: Array,
+	category: Array,
+	home_url: String,
+	github_url: String,
+	download_url: String,
+	platforms: Array
 });
 
 module.exports = mongoose.model('Tool', toolSchema);

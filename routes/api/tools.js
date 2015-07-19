@@ -8,6 +8,6 @@ router.get('/category/:name', api.category);
 router.get('/search/:term', api.search);
 router.get('/:id', api.single);
 router.get('/', api.list);
-router.post('/', api.post);
-
+router.post('/post', api.post);
+ 
 module.exports = router;
