@@ -15,8 +15,16 @@ exports.create = function(req, res){
 	newUser.provider = 'local';
 	newUser.admin = false;
 
-	newUser.save();
-	//here we need to log in the user.
+
+	//return the user
+	newUser.save(function(err){
+		User.findById(newUser._id, function(err, user){
+			if(err) res.send(err.message);
+			res.json(user);
+		});
+
+	});
+	
 }
 
 exports.show = function(req,res){
