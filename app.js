@@ -11,18 +11,28 @@ var express = require('express'),
 	MongoStore = require('connect-mongo')(session);
 
 var app = express();
-var dbUrl = 'mongodb://localhost:27017/jt';
+var dbUrl = "mongodb://localhost:27017/jt";
 //define database
 mongoose.connect(dbUrl);
 
-var pass = require('./config/pass');
-
-app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'));
+app.use(session({ 
+	secret: 'journalist toolbox',
+	resave: true,
+	saveUninitialized: true, 
+	store: new MongoStore({
+		url: dbUrl,
+		collection: 'sessions'
+	}) 
+}));
+app.use(passport.initialize());
+app.use(passport.session())
 
+var pass = require('./config/pass');
 
 app.use(function (req, res, next) {
 
@@ -43,25 +53,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-app.get('/', function(req,res){
-  res.sendFile('/public/index.html')
-});
-
-app.use('/api', routes);
-
-app.use(session({ 
-	secret: 'journalist toolbox',
-	resave: true,
-	saveUninitialized: true, 
-	store: new MongoStore({
-		url: dbUrl,
-		collection: 'sessions'
-	}) 
-}));
-
-app.use(passport.initialize());
-app.use(passport.session())
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

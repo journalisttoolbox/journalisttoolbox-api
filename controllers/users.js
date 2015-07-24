@@ -15,12 +15,15 @@ exports.create = function(req, res){
 	newUser.provider = 'local';
 	newUser.admin = false;
 
-
 	//return the user
 	newUser.save(function(err){
 		User.findById(newUser._id, function(err, user){
 			if(err) res.send(err.message);
-			res.json(user);
+			
+			req.logIn(newUser, function(err){
+				if(err) return next(err);
+				return res.json(newUser.user_info);
+			});
 		});
 
 	});

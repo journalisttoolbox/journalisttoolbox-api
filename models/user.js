@@ -39,32 +39,22 @@ userSchema
     return { 
     	'_id': this._id, 
     	'username': this.username, 
-    	'email': this.email 
+    	'email': this.email,
+    	'firstName': this.firstName
     };
   });
 
 
 userSchema.methods = {
 
-  /**
-   * Authenticate - check if the passwords are the same
-   */
-
   authenticate: function(plainText) {
     return this.encryptPassword(plainText) === this.hashedPassword;
   },
-
-  /**
-   * Make salt
-   */
 
   makeSalt: function() {
     return crypto.randomBytes(16).toString('base64');
   },
 
-  /**
-   * Encrypt password
-   */
   encryptPassword: function(password) {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
