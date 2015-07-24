@@ -8,15 +8,21 @@ exports.all = function(req,res){
 		if(err) res.send(err.message);
 		res.json(tools);
 	});
-}
+};
 
 // getting one tool by id
 exports.show = function(req,res){
 	Tool.findOne({'_id': req.params.id}, function(err,tool){
+    if(!tool) {
+      // If tool is not found
+      res.statusCode = 404;
+      return res.send({ error: 'Not found' });
+    }
+
 		if(err) res.send(err.message);
 		res.json(tool);
 	});
-}
+};
 
 // listing all tools of a category
 exports.category = function(req,res){
@@ -24,7 +30,51 @@ exports.category = function(req,res){
 		if(err) res.send(err.message);
 		res.json(tools);
 	});
-}
+};
+
+// Method for PUT requests
+exports.put = function(req, res) {
+  Tool.findOne({ '_id': req.params.id }, function(err, tool) {
+    if(err) {
+      res.send(err.message);
+    } else {
+
+      // Update all fields
+      for(var field in req.body) {
+        tool[field] = req.body[field];
+      }
+
+      tool.save(function(err) {
+        if(err) {
+          res.statusCode = 500;
+          res.send({ error: 'Error with put request' });
+        } else {
+          res.send({ status: 'OK', tool: tool });
+        }
+      });
+    }
+  });
+};
+
+// Method for DELETE requests
+exports.delete = function(req, res) {
+  Tool.findOne({ '_id': req.params.id }, function(err, tool) {
+    if(err) {
+      res.send(err.message);
+    } else {
+      tool.remove(function(err) {
+        if (err) {
+          // If removed unsuccessfully
+          res.statusCode = 500;
+          return res.send({ error: 'Server error' });
+        } else {
+          // if removed successfully
+          return res.send({ status: 'OK' });
+        }
+      });
+    }
+  });
+};
 
 //creating a new tool
 exports.create = function(req,res){
@@ -60,7 +110,7 @@ exports.create = function(req,res){
 		if(err) res.send(err.message);
 		res.json(tools);
 	});
-}
+};
 
 
 // exports.search = function(req, res){
