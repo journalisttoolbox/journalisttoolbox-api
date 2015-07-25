@@ -35,6 +35,11 @@ exports.category = function(req,res){
 // Method for PUT requests
 exports.put = function(req, res) {
   Tool.findOne({ '_id': req.params.id }, function(err, tool) {
+    if(!tool) {
+      // If tool is not found
+      res.statusCode = 404;
+      return res.send({ error: 'Not found' });
+    }    
     if(err) {
       res.send(err.message);
     } else {
@@ -59,6 +64,11 @@ exports.put = function(req, res) {
 // Method for DELETE requests
 exports.delete = function(req, res) {
   Tool.findOne({ '_id': req.params.id }, function(err, tool) {
+    if(!tool) {
+      // If tool is not found
+      res.statusCode = 404;
+      return res.send({ error: 'Not found' });
+    }
     if(err) {
       res.send(err.message);
     } else {
