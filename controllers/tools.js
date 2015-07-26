@@ -63,26 +63,23 @@ exports.put = function(req, res) {
 
 // Method for DELETE requests
 exports.delete = function(req, res) {
-  Tool.findOne({ '_id': req.params.id }, function(err, tool) {
-    if(!tool) {
-      // If tool is not found
+  var query = req.params.id.split(",");
+  var error = '';
+
+  Tool.remove({ '_id': {$in: query }}, function(err, tools) {
+    if(!tools) {
       res.statusCode = 404;
+      error = 'Not Found';
       return res.send({ error: 'Not found' });
     }
     if(err) {
-      res.send(err.message);
-    } else {
-      tool.remove(function(err) {
-        if (err) {
-          // If removed unsuccessfully
-          res.statusCode = 500;
-          return res.send({ error: 'Server error' });
-        } else {
-          // if removed successfully
-          return res.send({ status: 'OK' });
-        }
-      });
+      res.statusCode = 500;
+      error = err.data;
+    } 
+    else {
+      res.statusCode = 200;
     }
+    return res.send({ error: error });
   });
 };
 
