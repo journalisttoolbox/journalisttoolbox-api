@@ -2,19 +2,25 @@ var express = require('express');
 // var api = require('../../api.js');
 var router = express.Router();
 
+// TOOLS
 var tools = require('../controllers/tools');
-router.get('/tools/category/:name', tools.category);
-router.get('/tools/:id', tools.show);
-router.get('/tools', tools.all);
-router.post('/tools', tools.create);
-router.delete('/tools/:id', tools.delete);
-router.put('/tools/:id', tools.put);
-// router.get('/search/:term', tools.search);
+  router.get('/tools/category/:name', tools.category);
+  router.get('/tools/:id', tools.show);
+  router.get('/tools', tools.all);
+  router.post('/tools', tools.create);
+  router.delete('/tools/:id', tools.delete);
+  router.put('/tools/:id', tools.put);
 
+// USERS
 var users = require('../controllers/users');
-router.get('/users/:id', users.show);
-router.get('/users', users.all);
-router.post('/users', users.create);
+  router.get('/users/:id', users.show);
+  router.get('/users', users.all);
+  router.post('/users', users.create);
+
+// REVIEWS
+var reviews = require('../controllers/reviews');
+  router.get('/reviews/', reviews.show);
+  router.post('/reviews/', reviews.create);
 
 module.exports = router;
 
