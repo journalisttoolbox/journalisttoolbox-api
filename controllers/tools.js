@@ -107,7 +107,8 @@ exports.create = function(req,res){
 					download_url: req.body.download,
 					platforms: [req.body.pc,req.body.mac,req.body.linux,req.body.web],
 					upvotes: 0,
-					downvotes:0
+					downvotes:0,
+          owner: req.body.owner
 				}
 			);
 	newTool.save();
