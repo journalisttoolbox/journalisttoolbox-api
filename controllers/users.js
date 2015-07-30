@@ -5,7 +5,7 @@ exports.all = function(req, res){
 		if(err) res.send(err.message);
 		res.json(users);
 	});
-}
+};
 
 exports.create = function(req, res){
 	//we need to make sure that we name all the fields in the form according to the mongoose schem.
@@ -28,7 +28,58 @@ exports.create = function(req, res){
 
 	});
 	
-}
+};
+
+// Method for PUT requests
+exports.put = function(req, res) {
+  User.findOne({ '_id': req.params.id }, function(err, user) {
+    if(!user) {
+      // If user is not found
+      res.statusCode = 404;
+      return res.send({ error: 'Not found' });
+    }    
+    if(err) {
+      res.send(err.message);
+    } else {
+
+      // Update all fields
+      for(var field in req.body) {
+        user[field] = req.body[field];
+      }
+
+      user.save(function(err) {
+        if(err) {
+          res.statusCode = 500;
+          res.send({ error: 'Error with put request' });
+        } else {
+          res.send({ status: 'OK', user: user });
+        }
+      });
+    }
+  });
+};
+
+// Method for DELETE requests
+exports.delete = function(req, res) {
+  var query = req.params.id.split(",");
+  var error = '';
+
+  User.remove({ '_id': {$in: query }}, function(err, users) {
+    if(!users) {
+      res.statusCode = 404;
+      error = 'Not Found';
+      return res.send({ error: 'Not found' });
+    }
+    if(err) {
+      res.statusCode = 500;
+      error = err.data;
+    } 
+    else {
+      res.statusCode = 200;
+    }
+    return res.send({ error: error });
+  });
+};
 
 exports.show = function(req,res){
 	User.findById(req.params.id, function(err, user){
