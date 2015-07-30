@@ -39,7 +39,7 @@ userSchema
     return { 
     	'_id': this._id, 
     	'username': this.username, 
-    	'email': this.email,
+    	'email': crypto.createHash('md5').update(this.email.toLowerCase()).digest('hex'),
     	'firstName': this.firstName
     };
   });
