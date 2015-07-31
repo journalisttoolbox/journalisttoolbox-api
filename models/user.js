@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
-	crypto = require('crypto');
+  	Schema   = mongoose.Schema,
+	  crypto   = require('crypto');
 
 var userSchema = new Schema({
 	email:{

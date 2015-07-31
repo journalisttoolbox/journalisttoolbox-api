@@ -20,19 +20,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
-app.use(session({ 
-	secret: 'journalist toolbox',
-	resave: true,
-	saveUninitialized: true, 
-	store: new MongoStore({
-		url: dbUrl,
-		collection: 'sessions'
-	}) 
-}));
 app.use(passport.initialize());
-app.use(passport.session())
-
-var pass = require('./config/pass');
 
 app.use(function (req, res, next) {
 
@@ -54,6 +42,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', routes);
+app.use('/auth', require('./auth'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

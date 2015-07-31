@@ -1,4 +1,6 @@
-var User = require("../models/user.js");
+var User     = require("../models/user.js"),
+    passport = require('passport');
+    jwt      = require('jsonwebtoken');
 
 exports.all = function(req, res){
 	User.find(function(err, users){
@@ -20,10 +22,8 @@ exports.create = function(req, res){
 		User.findById(newUser._id, function(err, user){
 			if(err) res.send(err.message);
 			
-			req.logIn(newUser, function(err){
-				if(err) return next(err);
-				return res.json(newUser.user_info);
-			});
+      var token = jwt.sign({_id: user._id }, 'journalist toolbox', { expiresInMinutes: 60*5 });
+      res.json({ token: token });
 		});
 
 	});
@@ -86,4 +86,4 @@ exports.show = function(req,res){
 		if(err) res.send(err.message);
 		res.json(user);
 	});
-}
+};
