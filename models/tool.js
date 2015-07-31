@@ -16,7 +16,8 @@ var toolSchema = new Schema({
 	platforms: Array,
 	upvotes: Number,
 	downvotes: Number,
-	owner: String
+	owner: String,
+	uploaded_date: Date
 });
 
 module.exports = mongoose.model('Tool', toolSchema);
