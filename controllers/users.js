@@ -1,4 +1,4 @@
-var User     = require("../models/user.js"),
+var User     = require("../models/user"),
     passport = require('passport');
     jwt      = require('jsonwebtoken');
 
@@ -21,7 +21,6 @@ exports.create = function(req, res) {
 	newUser.save(function(err){
 		User.findById(newUser._id, function(err, user){
 			if(err) res.send(err.message);
-			
       var token = jwt.sign({_id: user._id }, 'journalist toolbox', { expiresInMinutes: 60*5 });
       res.json({ token: token });
 		});
@@ -97,11 +96,8 @@ exports.show = function (req, res, next) {
 /**
  * Get my info
  */
-exports.getMe = function(req, res, next) {
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) {
+exports.get = function(req, res, next) {
+  User.findById(req.user._id, '-salt -hashedPassword', function (err, user) {
     if (err) return next(err);
     if (!user) return res.status(401).send('Unauthorized');
     res.json(user);

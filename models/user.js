@@ -44,6 +44,15 @@ userSchema
     };
   });
 
+// Non-sensitive info we'll be putting in the token
+userSchema
+  .virtual('token')
+  .get(function() {
+    return {
+      '_id': this._id,
+    };
+  });
+
 
 userSchema.methods = {
 

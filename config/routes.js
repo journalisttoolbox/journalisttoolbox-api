@@ -15,12 +15,12 @@ router.delete('/api/tools/:id', tools.delete);
 router.put('/api/tools/:id', tools.put);
 
 // USERS
-router.get('/api/users/:id', users.show);
-router.get('/api/users/me', users.getMe);
 router.get('/api/users', users.all);
+router.get('/api/users/:id', users.show);
 router.post('/api/users', users.create);
 router.delete('/api/users/:id', users.delete);
 router.put('/api/users/:id', users.put);
+router.get('/api/users/me', auth.isAuthenticated(), users.get);
 
 module.exports = router;
 
