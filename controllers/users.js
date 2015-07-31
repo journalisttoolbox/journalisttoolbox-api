@@ -3,13 +3,13 @@ var User     = require("../models/user.js"),
     jwt      = require('jsonwebtoken');
 
 exports.all = function(req, res){
-	User.find(function(err, users){
-		if(err) res.send(err.message);
-		res.json(users);
-	});
+  User.find({}, '-salt -hashedPassword', function (err, users) {
+    if(err) return res.status(500).send(err);
+    res.status(200).json(users);
+  });
 };
 
-exports.create = function(req, res){
+exports.create = function(req, res) {
 	//we need to make sure that we name all the fields in the form according to the mongoose schem.
 	//if not - we can create a new user the same way we create a new tool, by creating a new object 
 	//and populating the fields.
@@ -81,9 +81,29 @@ exports.delete = function(req, res) {
   });
 };
 
-exports.show = function(req,res){
-	User.findById(req.params.id, function(err, user){
-		if(err) res.send(err.message);
-		res.json(user);
-	});
+/**
+ * Get a single user
+ */
+exports.show = function (req, res, next) {
+  var userId = req.params.id;
+
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+    res.json(user.profile);
+  });
+};
+
+/**
+ * Get my info
+ */
+exports.getMe = function(req, res, next) {
+  var userId = req.user._id;
+  User.findOne({
+    _id: userId
+  }, '-salt -hashedPassword', function(err, user) {
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+    res.json(user);
+  });
 };

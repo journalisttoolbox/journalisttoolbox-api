@@ -16,6 +16,7 @@ router.put('/api/tools/:id', tools.put);
 
 // USERS
 router.get('/api/users/:id', users.show);
+router.get('/api/users/me', users.getMe);
 router.get('/api/users', users.all);
 router.post('/api/users', users.create);
 router.delete('/api/users/:id', users.delete);
