@@ -1,3 +1,2 @@
 # journalisttoolbox-api
-This repo is a RESTful API for the journalist-toolbox project.
-_More information TBD._
+This repository is now obselete as it was merged to [here.](https://github.com/journalisttoolbox/journalisttoolbox-front-end)
